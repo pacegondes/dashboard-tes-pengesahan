@@ -58,10 +58,28 @@
 
         body { display: flex; flex-direction: column; }
 
-        /* TOMBOL TOGGLE MODE */
-        .theme-toggle {
+        /* JAM DIGITAL POJOK KANAN ATAS */
+        .clock-container {
             position: fixed;
             top: 20px;
+            right: 20px;
+            background: var(--header-bg);
+            padding: 10px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1), 0 4px 0 rgba(255,255,255,0.2) inset;
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            text-align: right;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        #digital-clock { font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .hari-text { color: #facc15; text-transform: uppercase; margin-right: 4px; font-weight: 800; }
+        .waktu-text { font-size: 16px; display: block; font-weight: 800; margin-top: 2px; }
+
+        /* TOMBOL TOGGLE MODE (DITURUNKAN AGAR TIDAK TABRAKAN) */
+        .theme-toggle {
+            position: fixed;
+            top: 85px;
             right: 20px;
             background: var(--toggle-bg);
             border: 2px solid rgba(255,255,255,0.2);
@@ -116,7 +134,7 @@
 
         header {
             text-align: center;
-            padding: 40px 0 10px;
+            padding: 60px 0 10px;
             transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             flex-shrink: 0;
         }
@@ -142,19 +160,6 @@
             color: var(--text-main);
             text-shadow: 0 4px 10px rgba(0,0,0,.3);
         }
-
-        .clock-container {
-            background: var(--header-bg);
-            padding: 8px 25px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-bottom: 10px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1), 0 4px 0 rgba(255,255,255,0.2) inset;
-            transform: perspective(1000px) rotateX(10deg);
-            color: var(--text-main);
-        }
-        #digital-clock { font-size: 22px; font-weight: 800; }
-        .hari-text { color: #facc15; text-transform: uppercase; margin-right: 6px; }
 
         body.searching header {
             margin-top: -320px;
@@ -274,14 +279,14 @@
             color: white;
         }
 
-        /* --- TAMBAHAN UNTUK IFRAME UJIAN SEB --- */
+        /* --- DESAIN BARU RE-DESIGN TOMBOL KEMBALI & OVERLAY --- */
         #exam-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #fff;
+            background: #f8fafc;
             z-index: 99999;
             display: none;
             flex-direction: column;
@@ -289,19 +294,45 @@
         #exam-overlay.active {
             display: flex;
         }
-        .btn-tutup-exam {
-            background: #dc2626;
-            color: white;
+        
+        /* HEADER BAR DI ATAS EXAM FRAME */
+        .exam-header-bar {
+            background: #ffffff;
             padding: 12px 20px;
-            text-align: center;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid #e2e8f0;
             z-index: 100000;
         }
-        .btn-tutup-exam:hover { background: #b91c1c; }
+
+        /* TOMBOL KEMBALI PREMIUM */
+        .btn-tutup-exam {
+            background: #ef4444;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-tutup-exam:hover { 
+            background: #dc2626; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+        .btn-tutup-exam:active {
+            transform: translateY(0);
+        }
+
         #exam-frame {
             flex: 1;
             width: 100%;
@@ -313,6 +344,8 @@
             .results { grid-template-columns: 1fr; }
             input { font-size: 17px; padding-left: 70px; }
             body.searching header { margin-top: -380px; }
+            .clock-container { position: relative; top: 0; right: 0; margin: 15px auto 0; display: inline-block; text-align: center; }
+            .theme-toggle { top: 20px; right: 20px; }
         }
     </style>
 </head>
@@ -326,6 +359,13 @@
         <span>⚠️</span> Link soal belum di-update oleh admin.
     </div>
 
+    <div class="clock-container">
+        <div id="digital-clock">
+            <span class="hari-text">SENIN</span>, 00 JANUARI 2026
+            <span class="waktu-text">00:00:00</span>
+        </div>
+    </div>
+
     <img src="https://i.ibb.co.com/mVzkz5xG/robot-removebg-preview.png" class="corner-robot">
 
     <header id="headerSection">
@@ -333,9 +373,6 @@
             <img src="https://i.ibb.co.com/1fHCTtJ5/logo.png">
         </div>
         <h1>PORTAL TES PENGESAHAN</h1>
-        <div class="clock-container">
-            <div id="digital-clock"><span class="hari-text">SENIN</span>, 00:00:00</div>
-        </div>
     </header>
 
     <div class="search-container">
@@ -352,7 +389,12 @@
     <footer>MTs AMTSILATI &copy; 2026</footer>
 
     <div id="exam-overlay">
-        <button class="btn-tutup-exam" onclick="tutupUjian()">⬅ KEMBALI KE PORTAL AWAL</button>
+        <div class="exam-header-bar">
+            <button class="btn-tutup-exam" onclick="tutupUjian()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                KEMBALI KE PORTAL AWAL
+            </button>
+        </div>
         <iframe id="exam-frame" src=""></iframe>
     </div>
 
@@ -364,15 +406,12 @@ const themeToggle = document.getElementById('themeToggle');
 const examOverlay = document.getElementById('exam-overlay');
 const examFrame = document.getElementById('exam-frame');
 
-// FUNGSI RESET HALAMAN (KEMBALI KE AWAL)
 function resetToHome() {
     searchInput.value = "";
     body.classList.remove('searching');
     document.getElementById('results').innerHTML = '';
 }
 
-// EKSEKUSI RESET SAAT HALAMAN DI-RELOAD
-// Ini memastikan jika SEB dipaksa refresh (F5/Ctrl+R), tampilannya bersih
 window.addEventListener('load', function() {
     resetToHome();
 });
@@ -380,21 +419,28 @@ window.addEventListener('pageshow', function (event) {
     resetToHome();
 });
 
-// FUNGSI JAM + HARI
+// FUNGSI JAM + HARI + TANGGAL + TAHUN LENGKAP
 function updateClock() {
     const now = new Date();
     const daftarHari = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+    const daftarBulan = ["JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI", "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"];
+    
     const namaHari = daftarHari[now.getDay()];
+    const tanggal = now.getDate();
+    const namaBulan = daftarBulan[now.getMonth()];
+    const tahun = now.getFullYear();
     
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     
-    document.getElementById('digital-clock').innerHTML = `<span class="hari-text">${namaHari}</span>, ${hours}:${minutes}:<span style="color: #facc15;">${seconds}</span>`;
+    document.getElementById('digital-clock').innerHTML = `
+        <span class="hari-text">${namaHari}</span>, ${tanggal} ${namaBulan} ${tahun}
+        <span class="waktu-text">${hours}:${minutes}:<span style="color: #facc15;">${seconds}</span></span>
+    `;
 }
 setInterval(updateClock, 1000); updateClock();
 
-// FUNGSI DARK MODE
 function toggleTheme() {
     body.classList.toggle('dark-mode');
     const isDark = body.classList.contains('dark-mode');
@@ -408,7 +454,6 @@ if (savedTheme === 'dark') {
     themeToggle.innerHTML = '🌙';
 }
 
-// DATA CSV
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGPq9jpsKX5zc9RIsZfEuqLMJ2GrucmiAjzlSezF8oVmA0SZ3-58mekFIFI59GhLiE3vyJ_K0Lx3Zv/pub?output=csv";
 let allData = [];
 
@@ -434,7 +479,6 @@ function showToast() {
     setTimeout(() => { toast.classList.remove('show'); }, 3000);
 }
 
-// FUNGSI KETIKA TOMBOL MULAI DIKLIK
 function handleGoToLink(url, event) {
     event.preventDefault();
     if (!isValidHttpUrl(url)) {
@@ -442,17 +486,14 @@ function handleGoToLink(url, event) {
         return false;
     }
     
-    // TAMPILKAN IFRAME OVERLAY ALIH-ALIH BERPINDAH HALAMAN
     examFrame.src = url;
     examOverlay.classList.add('active');
     
-    // Reset background agar ketika selesai, portal sudah bersih di awal
     setTimeout(() => {
         resetToHome();
     }, 500);
 }
 
-// FUNGSI TUTUP UJIAN MANUAL DARI OVERLAY
 function tutupUjian() {
     examFrame.src = "";
     examOverlay.classList.remove('active');
